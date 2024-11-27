@@ -1,4 +1,4 @@
-import { Home } from "@/App";
+import { Dashboard } from "@/pages/Dashboard";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Router = () => {
@@ -7,7 +7,7 @@ const Router = () => {
             <Routes>
                 <Route>
                     <Route>
-                        <Route path="/" element={ <Home/> } />
+                        <Route path="/" element={ <Dashboard/> } />
                     </Route>
                 </Route>
             </Routes>
