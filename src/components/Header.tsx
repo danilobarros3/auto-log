@@ -110,7 +110,6 @@ export function Header({ companyName, pageTitle, avatarSrc }: HeaderProps) {
                   .split(" ")
                   .map((word) => word[0])
                   .join("")}{" "}
-                {/* Iniciais da empresa */}
               </AvatarFallback>
             )}
           </Avatar>
