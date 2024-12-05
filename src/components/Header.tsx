@@ -39,7 +39,7 @@ export function Header({ companyName, pageTitle, avatarSrc }: HeaderProps) {
   };
 
   return (
-    <header className="flex items-center justify-between p-3 bg-white px-4 md:px-8">
+    <header className="flex items-center justify-between p-3 bg-background px-4 md:px-8">
       <h1 className="hidden sm:block text-xl font-medium text-foreground">
         {pageTitle}
       </h1>
@@ -67,7 +67,7 @@ export function Header({ companyName, pageTitle, avatarSrc }: HeaderProps) {
                 size={20}
               />
               {alerts.length > 0 && (
-                <span className="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute top-0 right-0 bg-foreground text-background text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {alerts.length}
                 </span>
               )}
@@ -105,7 +105,7 @@ export function Header({ companyName, pageTitle, avatarSrc }: HeaderProps) {
             {avatarSrc ? (
               <AvatarImage src={avatarSrc} alt="User Avatar" />
             ) : (
-              <AvatarFallback className="bg-blue-500 text-white flex items-center justify-center">
+              <AvatarFallback className="bg-foreground text-background flex items-center justify-center">
                 {companyName
                   .split(" ")
                   .map((word) => word[0])
@@ -113,7 +113,7 @@ export function Header({ companyName, pageTitle, avatarSrc }: HeaderProps) {
               </AvatarFallback>
             )}
           </Avatar>
-          <p className="text-sm font-medium text-gray-700">{companyName}</p>
+          <p className="text-sm font-medium text-foreground">{companyName}</p>
         </div>
       </div>
     </header>
