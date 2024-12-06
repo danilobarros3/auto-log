@@ -1,7 +1,7 @@
 import { Header } from "@/components/Header";
-import { Layers, Briefcase, CheckCircle } from "lucide-react";
-import InfoCard from "@/components/InfoCard";
+import { CarFront, Clock, DollarSign, User } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
+import Cards from "./components/Cards";
 
 export function Dashboard() {
   return (
@@ -17,44 +17,58 @@ export function Dashboard() {
 
         <div className="flex flex-col items-center gap-6 min-h-screen bg-background p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-8xl">
-            <InfoCard
-              icon={<Layers className="h-8 w-8 text-white" />}
-              title="10"
-              subtitle="Tarefas de hoje"
-              cardBackground="bg-primary"
-              iconBackground="bg-secondary"
+            <Cards
+              icon={<CarFront className="h-8 w-8 text-black" />}
+              text="Veiculo"
+              textColor="text-white"
+              title="ABC-0A12"
+              subtitle="Chassi 1HGCM82633A123456"
+              cardBackground="bg-black"
+              iconBackground="bg-white"
               titleColor="text-background"
               subtitleColor="text-background"
+              buttonText="Alterar"
+              buttonBackgroundColor="bg-white"
             />
 
-            <InfoCard
-              icon={<Briefcase className="h-8 w-8 text-white" />}
-              title="2"
-              subtitle="Em andamento"
-              cardBackground="bg-card"
-              iconBackground="bg-secondary"
+            <Cards
+              icon={<User className="h-8 w-8 text-white" />}
+              text="Profissional"
+              title="Ricardo"
+              subtitle="Atribuir novo profissional"
+              cardBackground="bg-white"
+              iconBackground="bg-primary"
               titleColor="text-foreground"
-              subtitleColor="text-foreground"
+              subtitleColor="text-primary"
+              buttonText="Alterar"
+              textColor="text-foreground"
             />
 
-            <InfoCard
-              icon={<CheckCircle className="h-8 w-8 text-white" />}
-              title="5"
-              subtitle="Concluído"
-              cardBackground="bg-card"
-              iconBackground="bg-secondary"
+            <Cards
+              icon={<DollarSign className="h-8 w-8 text-black" />}
+              text="Valor"
+              title="R$ 4.250,00"
+              subtitle="Pendente"
+              cardBackground="bg-white"
+              iconBackground="bg-[#17CFAF]"
               titleColor="text-foreground"
               subtitleColor="text-foreground"
+              buttonText="Editar"
+              buttonBackgroundColor="bg-[#17CFAF]"
             />
 
-            <InfoCard
-              icon={<CheckCircle className="h-8 w-8 text-white" />}
-              title="5"
-              subtitle="Concluído"
-              cardBackground="bg-card"
-              iconBackground="bg-secondary"
-              titleColor="text-foreground"
-              subtitleColor="text-foreground"
+            <Cards
+              icon={<Clock className="h-8 w-8 text-primary" />}
+              text="Status"
+              title="Em andamento"
+              textColor="text-white"
+              subtitle="00:14:43"
+              cardBackground="bg-primary"
+              iconBackground="bg-white"
+              titleColor="text-white"
+              subtitleColor="text-white"
+              buttonText="Encerrar"
+              buttonTextColor="text-primary"
             />
           </div>
         </div>

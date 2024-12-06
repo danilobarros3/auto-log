@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {
-  Home,
-  Layers,
-  FileText,
-  Clock,
-  Box,
-  Settings,
-  Sun,
-  Moon,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Home, Layers, FileText, Clock, Box, Settings, Sun, Moon, ChevronLeft, ChevronRight } from "lucide-react";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const menuItems = [
-    { icon: <Home size={20} />, label: "Dashboard" },
-    { icon: <Layers size={20} />, label: "Serviços" },
-    { icon: <FileText size={20} />, label: "Registro" },
-    { icon: <Clock size={20} />, label: "Histórico" },
-    { icon: <Box size={20} />, label: "Peças" },
+    { icon: <Home size={20} />, label: "Dashboard", route: "/" },
+    { icon: <Layers size={20} />, label: "Serviços", route: "/services" },
+    { icon: <FileText size={20} />, label: "Registro", route: "/register" },
+    { icon: <Clock size={20} />, label: "Histórico", route: "/history" },
+    { icon: <Box size={20} />, label: "Peças", route: "/parts" },
   ];
 
   useEffect(() => {
@@ -37,7 +27,7 @@ const Sidebar: React.FC = () => {
     <div className="relative flex">
       <aside
         className={clsx(
-          "h-screen bg-background  shadow-lg border-r transition-all duration-300 flex flex-col relative",
+          "h-screen bg-background shadow-lg border-r transition-all duration-300 flex flex-col relative",
           isOpen ? "w-64" : "w-16"
         )}
       >
@@ -51,7 +41,7 @@ const Sidebar: React.FC = () => {
               />
             </div>
             {isOpen && (
-              <span className="text-lg font-medium text-foregrounf">
+              <span className="text-lg font-medium text-foreground">
                 Autolog
               </span>
             )}
@@ -60,7 +50,7 @@ const Sidebar: React.FC = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className={clsx(
-              "p-1.5 rounded-full bg-foreground text-background shadow-md  transition-all",
+              "p-1.5 rounded-full bg-foreground text-background shadow-md transition-all",
               isOpen
                 ? "ml-2"
                 : "absolute top-4 left-1/2 transform -translate-x-1/2"
@@ -73,20 +63,21 @@ const Sidebar: React.FC = () => {
 
         <nav className="flex-1 mt-4">
           {menuItems.map((item, index) => (
-            <div
-              key={index}
-              className={clsx(
-                "flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md mx-2",
-                { "justify-center": !isOpen }
-              )}
-            >
-              {item.icon}
-              {isOpen && (
-                <span className="text-sm font-medium text-gray-900 dark:text-white">
-                  {item.label}
-                </span>
-              )}
-            </div>
+            <Link to={item.route} key={index} className="block">
+              <div
+                className={clsx(
+                  "flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md mx-2",
+                  { "justify-center": !isOpen }
+                )}
+              >
+                {item.icon}
+                {isOpen && (
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                    {item.label}
+                  </span>
+                )}
+              </div>
+            </Link>
           ))}
         </nav>
 
