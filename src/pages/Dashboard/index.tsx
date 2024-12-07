@@ -2,7 +2,8 @@ import { Header } from "@/components/Header";
 import { CarFront, Clock, DollarSign, User } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import Cards from "./components/Cards";
-import { TableDemo } from "./components/Table";
+import { TablePartsInUse } from "./components/TablePartsInUse";
+import { TableBudget } from "./components/TableBudget";
 
 export function Dashboard() {
   return (
@@ -72,7 +73,7 @@ export function Dashboard() {
               buttonTextColor="text-primary"
             />
           </div>
-          <TableDemo
+          <TablePartsInUse
             column1="Id"
             column2="Descrição"
             column3="Categoria"
@@ -81,6 +82,17 @@ export function Dashboard() {
             column6="Qtd"
             column7="Valor Total"
             title="Peças em uso"
+            subtitle="Registro das peças e componentes usados nos serviços atuais da oficina"
+          />
+          <TableBudget
+            column1="Id"
+            column2="Descrição"
+            column3="Categoria"
+            column4="Fabricante"
+            column5="Valor"
+            column6="Qtd"
+            column7="Valor Total"
+            title="Orçamento"
             subtitle="Registro das peças e componentes usados nos serviços atuais da oficina"
           />
         </div>
