@@ -29,20 +29,17 @@ export function Dashboard() {
               iconBackground="bg-white"
               titleColor="text-background"
               subtitleColor="text-background"
-              buttonText="Alterar"
-              buttonBackgroundColor="bg-white"
             />
 
             <Cards
               icon={<User className="h-8 w-8 text-white" />}
               text="Profissional"
               title="Ricardo"
-              subtitle="Atribuir novo profissional"
+              subtitle=""
               cardBackground="bg-white"
               iconBackground="bg-primary"
               titleColor="text-foreground"
               subtitleColor="text-primary"
-              buttonText="Alterar"
               textColor="text-foreground"
             />
 
@@ -50,13 +47,11 @@ export function Dashboard() {
               icon={<DollarSign className="h-8 w-8 text-black" />}
               text="Valor"
               title="R$ 4.250,00"
-              subtitle="Pendente"
+              subtitle=""
               cardBackground="bg-white"
               iconBackground="bg-[#17CFAF]"
               titleColor="text-foreground"
               subtitleColor="text-foreground"
-              buttonText="Editar"
-              buttonBackgroundColor="bg-[#17CFAF]"
             />
 
             <Cards
@@ -64,13 +59,11 @@ export function Dashboard() {
               text="Status"
               title="Em andamento"
               textColor="text-white"
-              subtitle="00:14:43"
+              subtitle=""
               cardBackground="bg-primary"
               iconBackground="bg-white"
               titleColor="text-white"
               subtitleColor="text-white"
-              buttonText="Encerrar"
-              buttonTextColor="text-primary"
             />
           </div>
           <TablePartsInUse

@@ -11,7 +11,7 @@ export function Services() {
       <div className="flex-1">
         <Header
           companyName="Minha Oficina"
-          pageTitle="Dashboard"
+          pageTitle="Serviços"
           avatarSrc={null}
         />
 
@@ -19,6 +19,7 @@ export function Services() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-8xl">
             <InfoCard
               icon={<Layers className="h-8 w-8 text-white" />}
+              description=""
               title="10"
               subtitle="Tarefas de hoje"
               cardBackground="bg-primary"
@@ -29,6 +30,7 @@ export function Services() {
 
             <InfoCard
               icon={<Briefcase className="h-8 w-8 text-white" />}
+              description=""
               title="2"
               subtitle="Em andamento"
               cardBackground="bg-card"
@@ -39,6 +41,7 @@ export function Services() {
 
             <InfoCard
               icon={<CheckCircle className="h-8 w-8 text-white" />}
+              description=""
               title="5"
               subtitle="Concluído"
               cardBackground="bg-card"
@@ -49,6 +52,7 @@ export function Services() {
 
             <InfoCard
               icon={<CheckCircle className="h-8 w-8 text-white" />}
+              description=""
               title="5"
               subtitle="Concluído"
               cardBackground="bg-card"
