@@ -6,6 +6,7 @@ import Config from "@/pages/Configuration";
 import { RegisterCar } from "@/pages/RegisterCar/components";
 import { AuthGuard } from "@/components/AuthGuard";
 import PrivateRouteTemplate from "@/components/PrivateRouteTemplate";
+import { Parts } from "@/pages/Parts/components";
 
 const Router = () => {
   return (
@@ -57,6 +58,18 @@ const Router = () => {
               element={
                 <PrivateRouteTemplate>
                   <Config />
+                </PrivateRouteTemplate>
+              }
+            />
+          </Route>
+        </Route>
+        <Route element={<AuthGuard isPrivate />}>
+          <Route>
+            <Route
+              path="/parts"
+              element={
+                <PrivateRouteTemplate>
+                  <Parts />
                 </PrivateRouteTemplate>
               }
             />

@@ -48,11 +48,11 @@ export function RegisterCar() {
           avatarSrc={null}
         />
 
-        <div className="flex flex-col items-center gap-6 min-h-screen bg-background p-6">
+        <div className="flex flex-col justify-center items-center gap-6 min-h-screen bg-background pb-[40vh]"> 
           <div className="w-full max-w-xl">
             <form
               onSubmit={handleFormikCars.handleSubmit}
-              className="space-y-4"
+              className="space-y-8"
             >
               <div>
                 <h1 className="text-2xl font-bold">
@@ -191,7 +191,7 @@ export function RegisterCar() {
                 </div>
               </div>
 
-              <div className="mt-4">
+              <div className="mt-10">
                 <button
                   type="submit"
                   className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
