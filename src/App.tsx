@@ -1,11 +1,12 @@
-import { Toaster } from "sonner";
 import Router from "./router";
+import { AuthProvider } from "./context/authContext";
 
 export function App() {
   return (
     <>
-      <Router/>
-      <Toaster richColors />
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
     </>
   );
 }

@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
-import imageLogin from "../../assets/Login_img.png";
+import imageLogin from "@/assets/Login_img.png";
 import api from "@/services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -12,6 +12,7 @@ import {
   initialLoginFormValues,
   loginFormSchema,
 } from "@/schema/loginForm.schema";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ILogin {
   email: string;
@@ -21,23 +22,30 @@ interface ILogin {
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { signin } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const handleFormikLogin = useFormik({
     initialValues: initialLoginFormValues,
     validationSchema: loginFormSchema,
     onSubmit: async (values) => {
-      handleSubmit(values);
+      handleLoginSubmit(values);
     },
   });
 
-  const handleSubmit = async (values: ILogin) => {
+  const handleLoginSubmit = async (values: ILogin) => {
+    setLoading(true);
     try {
-      await api.post("/auth/login", values);
+      const { data } = await api.post("/auth/login", values);
       toast.success("Usuário logado com sucesso!");
+      signin(data.token, data.name, data.email);
+      handleFormikLogin.resetForm();
       navigate("/");
     } catch (error) {
       console.error(error);
-      toast.error("Falha ao logar, verifique suas credenciais!");
+      toast.error("Falha ao realizar login, tente novamente!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,12 +53,7 @@ const Login: React.FC = () => {
     <>
       <form onSubmit={handleFormikLogin.handleSubmit}>
         <div className="flex min-h-screen">
-          <div
-            className="hidden lg:flex w-1/2 h-full bg-cover bg-center rounded-tr-[40px] rounded-br-[40px]"
-            style={{
-              backgroundImage: `url(${imageLogin})`,
-            }}
-          ></div>
+          <img src={imageLogin} alt="Carro do login" className="w-1/2" />
 
           <div className="flex flex-1 flex-col justify-center items-center p-8 lg:p-16">
             <div className="max-w-md w-full">
@@ -128,6 +131,7 @@ const Login: React.FC = () => {
                 type="submit"
                 className="w-full h-12 mt-6 bg-black text-white"
               >
+                {loading && <LoaderCircle className="animate-spin" />}
                 Entrar
               </Button>
 

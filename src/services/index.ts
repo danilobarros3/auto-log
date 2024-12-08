@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getUserFromLocalStorage } from "@/utils/userStorage";
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
@@ -10,7 +11,8 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const user = getUserFromLocalStorage();
+    const token = user?.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -20,6 +22,5 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
 
 export default api;
