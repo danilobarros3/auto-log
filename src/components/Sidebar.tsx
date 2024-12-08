@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { 
-  Home, Layers, FileText, Clock, Box, Settings, Sun, Moon, ChevronLeft, ChevronRight 
+import {
+  Home,
+  Layers,
+  FileText,
+  Clock,
+  Box,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import clsx from "clsx";
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const location = useLocation(); // Hook para pegar a rota atual
+  const location = useLocation();
 
   const menuItems = [
     { icon: <Home size={20} />, label: "Dashboard", route: "/" },
@@ -17,14 +23,6 @@ const Sidebar: React.FC = () => {
     { icon: <Clock size={20} />, label: "Histórico", route: "/history" },
     { icon: <Box size={20} />, label: "Peças", route: "/parts" },
   ];
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
-  }, [isDarkMode]);
 
   return (
     <div className="relative flex">
@@ -72,49 +70,30 @@ const Sidebar: React.FC = () => {
                   "flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md mx-2",
                   {
                     "justify-center": !isOpen,
-                    "bg-blue-500 text-white dark:bg-blue-600": location.pathname === item.route, // Destaque se a rota atual for igual ao item
+                    "bg-blue-500 text-white dark:bg-blue-600":
+                      location.pathname === item.route,
                   }
                 )}
               >
                 {item.icon}
                 {isOpen && (
-                  <span className="text-sm font-medium">
-                    {item.label}
-                  </span>
+                  <span className="text-sm font-medium">{item.label}</span>
                 )}
               </div>
             </Link>
           ))}
         </nav>
 
-        <div
-          className={clsx(
-            "flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md mx-2",
-            { "justify-center": !isOpen }
-          )}
-          onClick={() => setIsDarkMode(!isDarkMode)}
-        >
-          {isDarkMode ? <Moon size={20} /> : <Sun size={20} />}
-          {isOpen && (
-            <span className="text-sm font-medium">
-              Tema
-            </span>
-          )}
-        </div>
-
-        <div
+        <Link
+          to="/configuration"
           className={clsx(
             "mt-auto flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md mx-2",
             { "justify-center": !isOpen }
           )}
         >
           <Settings size={20} />
-          {isOpen && (
-            <span className="text-sm font-medium">
-              Configurações
-            </span>
-          )}
-        </div>
+          {isOpen && <span className="text-sm font-medium">Configurações</span>}
+        </Link>
       </aside>
     </div>
   );
