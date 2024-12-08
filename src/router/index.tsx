@@ -50,20 +50,21 @@ const Router = () => {
             />
           </Route>
         </Route>
-      </Routes>
-    </BrowserRouter>
-  );
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/configuration" element={<Config />} />
+        <Route element={<AuthGuard isPrivate />}>
+          <Route>
+            <Route
+              path="/configuration"
+              element={
+                <PrivateRouteTemplate>
+                  <Config />
+                </PrivateRouteTemplate>
+              }
+            />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
 };
 
 export default Router;
-
