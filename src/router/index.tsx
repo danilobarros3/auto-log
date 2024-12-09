@@ -16,7 +16,7 @@ const Router = () => {
       <Routes>
         <Route element={<AuthGuard isPrivate={false} />}>
           <Route path="/login" element={<Login />} />
-          <Route path="/Cadastro" element={<RegisterForm />} />
+          <Route path="/cadastro" element={<RegisterForm />} />
         </Route>
         <Route element={<AuthGuard isPrivate />}>
           <Route>
