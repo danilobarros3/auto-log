@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   Home,
   Layers,
@@ -9,12 +9,24 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
 import clsx from "clsx";
+import { toast } from "sonner";
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user:accessUser");
+
+    setShowLogoutModal(false);
+    toast.success("Deslogado com sucesso!");
+    navigate("/login");
+  };
 
   const menuItems = [
     { icon: <Home size={20} />, label: "Dashboard", route: "/" },
@@ -87,14 +99,50 @@ const Sidebar: React.FC = () => {
         <Link
           to="/configuration"
           className={clsx(
-            "mt-auto flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md mx-2",
+            "mt-2 flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md mx-2",
             { "justify-center": !isOpen }
           )}
         >
           <Settings size={20} />
           {isOpen && <span className="text-sm font-medium">Configurações</span>}
         </Link>
+
+        <button
+          onClick={() => setShowLogoutModal(true)}
+          className={clsx(
+            "mt-2 flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md mx-2",
+            { "justify-center": !isOpen }
+          )}
+        >
+          <LogOut size={20} />
+          {isOpen && <span className="text-sm font-medium">Deslogar</span>}
+        </button>
       </aside>
+
+      {showLogoutModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-80">
+            <h3 className="text-lg font-bold">Deseja sair?</h3>
+            <p className="mt-2 text-gray-500 dark:text-gray-400">
+              Tem certeza de que deseja deslogar?
+            </p>
+            <div className="mt-4 flex gap-3 justify-end">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="px-4 py-2 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600"
+              >
+                Sair
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
