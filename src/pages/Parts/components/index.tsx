@@ -28,7 +28,7 @@ export function Parts() {
   const handleSubmitParts = async (values: IPartFormValues) => {
     try {
       await api.post("/parts", values);
-      toast.success("Carro cadastrado com sucesso!");
+      toast.success("Peça cadastrada com sucesso!");
     } catch (error) {
       console.error(error);
       toast.error("Falha ao cadastrar, tente novamente!");
