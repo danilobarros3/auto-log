@@ -1,4 +1,3 @@
-import { Dashboard } from "@/pages/Dashboard";
 import { Services } from "@/pages/Services";
 import Login from "@/pages/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -8,6 +7,9 @@ import { AuthGuard } from "@/components/AuthGuard";
 import PrivateRouteTemplate from "@/components/PrivateRouteTemplate";
 import { Parts } from "@/pages/Parts/components";
 import RegisterForm from "@/pages/Register";
+import { Vehicles } from "@/pages/Veiculos";
+
+
 
 
 const Router = () => {
@@ -21,10 +23,10 @@ const Router = () => {
         <Route element={<AuthGuard isPrivate />}>
           <Route>
             <Route
-              path="/"
+              path="/veiculos"
               element={
                 <PrivateRouteTemplate>
-                  <Dashboard />
+                  <Vehicles />
                 </PrivateRouteTemplate>
               }
             />
@@ -33,7 +35,7 @@ const Router = () => {
         <Route element={<AuthGuard isPrivate />}>
           <Route>
             <Route
-              path="/services"
+              path="/"
               element={
                 <PrivateRouteTemplate>
                   <Services />

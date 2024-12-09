@@ -29,8 +29,8 @@ const Sidebar: React.FC = () => {
   };
 
   const menuItems = [
-    { icon: <Home size={20} />, label: "Dashboard", route: "/" },
-    { icon: <Layers size={20} />, label: "Serviços", route: "/services" },
+    { icon: <Layers size={20} />, label: "Serviços", route: "/" },
+    { icon: <Home size={20} />, label: "Veículos", route: "/veiculos" },
     { icon: <FileText size={20} />, label: "Registro", route: "/register" },
     { icon: <Clock size={20} />, label: "Histórico", route: "/history" },
     { icon: <Box size={20} />, label: "Peças", route: "/parts" },
