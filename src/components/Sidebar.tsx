@@ -32,7 +32,6 @@ const Sidebar: React.FC = () => {
     { icon: <Layers size={20} />, label: "Serviços", route: "/" },
     { icon: <Home size={20} />, label: "Veículos", route: "/veiculos" },
     { icon: <FileText size={20} />, label: "Registro", route: "/register" },
-    { icon: <Clock size={20} />, label: "Histórico", route: "/history" },
     { icon: <Box size={20} />, label: "Peças", route: "/parts" },
   ];
 
@@ -115,7 +114,7 @@ const Sidebar: React.FC = () => {
           )}
         >
           <LogOut size={20} />
-          {isOpen && <span className="text-sm font-medium">Deslogar</span>}
+          {isOpen && <span className="text-sm font-medium">Sair</span>}
         </button>
       </aside>
 
@@ -124,9 +123,9 @@ const Sidebar: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-80">
             <h3 className="text-lg font-bold">Deseja sair?</h3>
             <p className="mt-2 text-gray-500 dark:text-gray-400">
-              Tem certeza de que deseja deslogar?
+              Tem certeza de que deseja sair?
             </p>
-            <div className="mt-4 flex gap-3 justify-end">
+            <div className="mt-4 flex gap-3 justify-center">
               <button
                 onClick={() => setShowLogoutModal(false)}
                 className="px-4 py-2 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"

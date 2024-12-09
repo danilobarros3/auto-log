@@ -28,7 +28,7 @@ export function RegisterCar() {
 
   const handleSubmitCar = async (values: ICarFormValues) => {
     try {
-      const id = 3;
+      const id = 1;
       await api.post(`/users/${id}/cars`, values);
       toast.success("Carro cadastrado com sucesso!");
     } catch (error) {
