@@ -37,7 +37,7 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <div className="relative flex">
+    <div className="relative flex ">
       <aside
         className={clsx(
           "h-screen bg-background shadow-lg border-r transition-all duration-300 flex flex-col relative",
