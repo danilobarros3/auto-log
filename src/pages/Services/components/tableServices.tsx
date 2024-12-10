@@ -22,17 +22,14 @@ interface IService {
 function getStatusColor(status: string) {
   switch (status) {
     case "Em andamento":
-      return "bg-yellow-500 text-white"; // Amarelo
+      return "bg-yellow-500 text-white";
     case "Concluido":
-      return "bg-green-500 text-white"; // Verde
-    case "Ativo":
-      return "bg-sky-500 text-white"; // Sky
+      return "bg-green-500 text-white";
     case "Cancelado":
-      return "bg-red-500 text-white"; // Vermelho
-    case "Inativo":
-      return "bg-orange-500 text-white"; // Laranja
+      return "bg-red-500 text-white";
+
     default:
-      return "bg-gray-200 text-gray-800"; // Cor padrão
+      return "bg-gray-200 text-gray-800";
   }
 }
 
@@ -75,10 +72,8 @@ export function TableService({
     try {
       const { data } = await api.get(`/users/1/cars/1/maintenance`);
       setServices(data);
-      toast.success("Serviços carregados com sucesso!");
     } catch (error) {
       console.error(error);
-      toast.error("Falha ao carregar os serviços. Tente novamente!");
     }
   };
 
@@ -98,10 +93,14 @@ export function TableService({
 
   const deleteService = async (serviceId: number) => {
     try {
-      const userId = 1; 
-      const carId = 1; 
-      await api.delete(`/users/${userId}/cars/${carId}/maintenance/${serviceId}`);
-      setServices(services.filter((service) => service.idMaintenance !== serviceId));
+      const userId = 1;
+      const carId = 1;
+      await api.delete(
+        `/users/${userId}/cars/${carId}/maintenance/${serviceId}`
+      );
+      setServices(
+        services.filter((service) => service.idMaintenance !== serviceId)
+      );
       toast.success("Serviço excluído com sucesso!");
     } catch (error) {
       console.error(error);
@@ -149,8 +148,6 @@ export function TableService({
               onChange={handleFilterChange}
             >
               <option value="">Filtrar por Status</option>
-              <option value="Ativo">Ativo</option>
-              <option value="Inativo">Inativo</option>
               <option value="Em andamento">Em andamento</option>
               <option value="Concluido">Concluído</option>
               <option value="Cancelado">Cancelado</option>
@@ -180,7 +177,11 @@ export function TableService({
                   <TableCell>{service.idMaintenance}</TableCell>
                   <TableCell>{service.serviceDescription}</TableCell>
                   <TableCell>
-                    <span className={`py-1 px-3 rounded-full ${getStatusColor(service.serviceStatus)}`}>
+                    <span
+                      className={`py-1 px-3 rounded-full ${getStatusColor(
+                        service.serviceStatus
+                      )}`}
+                    >
                       {service.serviceStatus}
                     </span>
                   </TableCell>

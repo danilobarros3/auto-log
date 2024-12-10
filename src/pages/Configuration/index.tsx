@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import api from "@/services";
+import { toast } from "sonner";
 
 const EditableField = ({
   label,
@@ -121,19 +122,22 @@ export default function Config() {
   const handleSave = async (section: "user" | "oficina") => {
     try {
       const payload = {
-        ...data.user,
-        ...data.oficina,
-        password: data.password !== "********" ? data.password : undefined,
+        name: data.user.name,
+        email: data.user.email,
+        cnpj: data.user.cnpj,
+        phone: data.user.phone,
+        password: data.password,
+        nameWorkshop: data.oficina.nameWorkshop,
+        addressWorkshop: data.oficina.addressWorkshop,
       };
       await api.put("/users/1", payload);
       setIsEditing((prev) => ({ ...prev, [section]: false }));
-      alert("Dados salvos com sucesso!");
+      toast.success("Dados salvos com sucesso!");
     } catch (error) {
       console.error("Erro ao salvar os dados:", error);
-      alert("Erro ao salvar os dados!");
+      toast.error("Falha ao salvar os dados. Tente novamente!");
     }
   };
-
 
   const tabs: Record<string, JSX.Element> = {
     Conta: (
@@ -154,14 +158,15 @@ export default function Config() {
           ))}
         </div>
         <Button
-          onClick={() =>
-            isEditing.oficina
-              ? handleSave("oficina")
-              : setIsEditing({ ...isEditing, oficina: true })
-          }
+          onClick={() => {
+            if (isEditing.info) {
+              handleSave("user");
+            }
+            setIsEditing((prev) => ({ ...prev, info: !prev.info }));
+          }}
           className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md mt-4"
         >
-          {isEditing.oficina ? "Salvar" : "Editar"}
+          {isEditing.info ? "Salvar" : "Editar"}
         </Button>
       </Section>
     ),
@@ -183,9 +188,12 @@ export default function Config() {
           ))}
         </div>
         <Button
-          onClick={() =>
-            setIsEditing((prev) => ({ ...prev, oficina: !prev.oficina }))
-          }
+          onClick={() => {
+            if (isEditing.oficina) {
+              handleSave("oficina");
+            }
+            setIsEditing((prev) => ({ ...prev, oficina: !prev.oficina }));
+          }}
           className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md mt-4"
         >
           {isEditing.oficina ? "Salvar" : "Editar"}
@@ -204,7 +212,7 @@ export default function Config() {
           isEditing={isEditing.password}
           onChange={(e) => setData({ ...data, password: e.target.value })}
         />
-        <Button
+         <Button
           onClick={() =>
             setIsEditing((prev) => ({ ...prev, password: !prev.password }))
           }

@@ -3,8 +3,62 @@ import { Car, Clipboard, CheckCircle } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import InfoCard from "@/components/InfoCard";
 import { TableVehicles } from "./components/TableVehicle";
+import { useEffect, useState } from "react";
+import api from "@/services";
+
+interface IMaintenance {
+  idMaintenance: number;
+  serviceDescription: string;
+  serviceStatus: string;
+  repairDate: string;
+  serviceValue: number;
+}
+
+interface IVehicle {
+  idCar: number;
+  ownerName: string;
+  carBrand: string;
+  model: string;
+  color: string;
+  licencePlate: string;
+  chassisNumber: string;
+  maintenanceHistory: IMaintenance[];
+}
 
 export function Vehicles() {
+  const [vehicles, setVehicles] = useState<IVehicle[]>([]);
+
+  const fetchVehicles = async () => {
+    try {
+      const { data } = await api.get(`/users/1/cars`);
+      setVehicles(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchVehicles();
+  }, []);
+
+  // Data de hoje no formato "YYYY-MM-DD"
+  const today = new Date().toISOString().split("T")[0];
+
+  // Indicadores
+  const totalVehicles = vehicles.length;
+  
+  const vehiclesInMaintenance = vehicles.filter(vehicle => 
+    vehicle.maintenanceHistory.some(maintenance => maintenance.serviceStatus === "Em andamento")
+  ).length;
+
+  const vehiclesCompleted = vehicles.filter(vehicle => 
+    vehicle.maintenanceHistory.some(maintenance => maintenance.serviceStatus === "Concluido")
+  ).length;
+
+  const vehiclesRegisteredToday = vehicles.filter(vehicle => 
+    vehicle.maintenanceHistory.some(maintenance => maintenance.repairDate === today)
+  ).length;
+
   return (
     <div className="flex">
       <Sidebar />
@@ -21,7 +75,7 @@ export function Vehicles() {
             <InfoCard
               icon={<Car className="h-8 w-8 text-white" />}
               description=""
-              title="25"
+              title={totalVehicles.toString()}
               subtitle="Veículos Registrados"
               cardBackground="bg-primary"
               iconBackground="bg-secondary"
@@ -32,7 +86,7 @@ export function Vehicles() {
             <InfoCard
               icon={<Clipboard className="h-8 w-8 text-white" />}
               description=""
-              title="8"
+              title={vehiclesInMaintenance.toString()}
               subtitle="Veículos em Manutenção"
               cardBackground="bg-card"
               iconBackground="bg-secondary"
@@ -43,7 +97,7 @@ export function Vehicles() {
             <InfoCard
               icon={<CheckCircle className="h-8 w-8 text-white" />}
               description=""
-              title="15"
+              title={vehiclesCompleted.toString()}
               subtitle="Veículos Concluídos"
               cardBackground="bg-card"
               iconBackground="bg-secondary"
@@ -54,7 +108,7 @@ export function Vehicles() {
             <InfoCard
               icon={<CheckCircle className="h-8 w-8 text-white" />}
               description=""
-              title="2"
+              title={vehiclesRegisteredToday.toString()}
               subtitle="Registrados Hoje"
               cardBackground="bg-card"
               iconBackground="bg-secondary"

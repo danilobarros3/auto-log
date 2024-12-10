@@ -7,7 +7,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "@/services";
 
 interface HeaderProps {
   companyName: string;
@@ -37,6 +38,46 @@ export function Header({ companyName, pageTitle, avatarSrc }: HeaderProps) {
     newAlerts.splice(index, 1);
     setAlerts(newAlerts);
   };
+
+  const [data, setData] = useState({
+    user: {
+      name: "",
+      email: "",
+      cnpj: "",
+      phone: "",
+    },
+    oficina: {
+      nameWorkshop: "",
+      addressWorkshop: "",
+    },
+    password: "",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/users/1");
+        const userData = response.data;
+        setData({
+          user: {
+            name: userData.name,
+            email: userData.email,
+            cnpj: userData.cnpj,
+            phone: userData.phone,
+          },
+          oficina: {
+            nameWorkshop: userData.nameWorkshop,
+            addressWorkshop: userData.addressWorkshop,
+          },
+          password: "********",
+        });
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <header className="flex items-center justify-between p-3 bg-background px-4 md:px-8">
@@ -105,15 +146,30 @@ export function Header({ companyName, pageTitle, avatarSrc }: HeaderProps) {
             {avatarSrc ? (
               <AvatarImage src={avatarSrc} alt="User Avatar" />
             ) : (
-              <AvatarFallback className="bg-foreground text-background flex items-center justify-center">
-                {companyName
-                  .split(" ")
-                  .map((word) => word[0])
-                  .join("")}{" "}
-              </AvatarFallback>
+              <Avatar className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10">
+              {avatarSrc ? (
+                <AvatarImage src={avatarSrc} alt="User Avatar" />
+              ) : (
+                <AvatarFallback className="bg-foreground text-background flex items-center justify-center">
+                  {(
+                    data.oficina.nameWorkshop
+                      ? data.oficina.nameWorkshop
+                      : companyName
+                  )
+                    .split(" ")
+                    .map((word) => word[0])
+                    .join("")}
+                </AvatarFallback>
+              )}
+            </Avatar>
+            
             )}
           </Avatar>
-          <p className="text-sm font-medium text-foreground">{companyName}</p>
+          <p className="text-sm font-medium text-foreground">
+            {data.oficina.nameWorkshop
+              ? data.oficina.nameWorkshop
+              : companyName}
+          </p>
         </div>
       </div>
     </header>
