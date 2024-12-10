@@ -87,8 +87,8 @@ export function TablePartsInUse({
             className="flex items-center justify-center bg-blue-500 text-white border border-blue-500 shadow-lg hover:bg-blue-600 transition-colors"
             onClick={() => navigate('/parts/form')}
           >
-            <Box className="h-6 w-6 text-white" />
-            <span className="text-white">Adicionar peça</span>
+            <Box className="h-6 w-6 text-foreground" />
+            <span className="text-foreground">Adicionar peça</span>
           </Button>
         </div>
       </div>
@@ -101,7 +101,6 @@ export function TablePartsInUse({
             <p className="text-gray-500">Sem peças registradas.</p>
           )}
 
-          {/* Filtros de busca */}
           <div className="flex space-x-4 mb-4">
             <div className="relative w-full">
               <input
@@ -133,12 +132,12 @@ export function TablePartsInUse({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[120px]">Número da Peça</TableHead>
-                  <TableHead>Nome</TableHead>
-                  <TableHead>Quantidade</TableHead>
-                  <TableHead>Preço</TableHead>
-                  <TableHead>Descrição</TableHead>
-                  <TableHead>Ações</TableHead>
+                  <TableHead className="w-[120px] text-black">Número da Peça</TableHead>
+                  <TableHead className="text-black">Nome</TableHead>
+                  <TableHead className="text-black">Quantidade</TableHead>
+                  <TableHead className="text-black">Preço</TableHead>
+                  <TableHead className="text-black">Descrição</TableHead>
+                  <TableHead className="text-black">Ações</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
