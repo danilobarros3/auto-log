@@ -169,7 +169,7 @@ export function TablePartsInUse({ title, subtitle }: ITableColumn) {
                     <TableCell>{part.quantity}</TableCell>
                     <TableCell>{part.price}</TableCell>
                     <TableCell>{part.description}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="px-3">
                       <button
                         onClick={() => deletePart(part.idPart)}
                         className="text-red-600 hover:text-red-800"
