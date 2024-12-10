@@ -8,6 +8,7 @@ import PrivateRouteTemplate from "@/components/PrivateRouteTemplate";
 import { Parts } from "@/pages/Parts/components";
 import RegisterForm from "@/pages/Register";
 import { Vehicles } from "@/pages/Veiculos";
+import { PartsPage } from "@/pages/Parts/components/Parts";
 
 
 
@@ -72,6 +73,18 @@ const Router = () => {
           <Route>
             <Route
               path="/parts"
+              element={
+                <PrivateRouteTemplate>
+                  <PartsPage />
+                </PrivateRouteTemplate>
+              }
+            />
+          </Route>
+        </Route>
+        <Route element={<AuthGuard isPrivate />}>
+          <Route>
+            <Route
+              path="/parts/form"
               element={
                 <PrivateRouteTemplate>
                   <Parts />

@@ -4,7 +4,6 @@ import {
   Home,
   Layers,
   FileText,
-  Clock,
   Box,
   Settings,
   ChevronLeft,
