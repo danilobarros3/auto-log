@@ -41,10 +41,8 @@ export function Vehicles() {
     fetchVehicles();
   }, []);
 
-  // Data de hoje no formato "YYYY-MM-DD"
   const today = new Date().toISOString().split("T")[0];
 
-  // Indicadores
   const totalVehicles = vehicles.length;
   
   const vehiclesInMaintenance = vehicles.filter(vehicle => 
