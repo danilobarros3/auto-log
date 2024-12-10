@@ -5,13 +5,13 @@ O **AutoLog** é um sistema automatizado desenvolvido para gerenciar as operaç�
 ## Tecnologias Utilizadas
 
 - **Frontend:**
-  - **TypeScript** ![TypeScript](https://upload.wikimedia.org/wikipedia/commons/4/4f/TypeScript_logo_2020.svg)
+  - **TypeScript** 
   - **TailwindCSS**
   - **Shadcn**
   - **Chart.js**
 
 - **Backend:**
-  - **Java Spring Boot** ![Java Spring Boot](https://upload.wikimedia.org/wikipedia/commons/2/2f/Spring_Framework_Logo_2018.svg)
+  - **Java Spring Boot** 
   - **MySQL**
 
 ## Funcionalidades
