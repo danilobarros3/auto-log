@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import api from "@/services";
 import { Box, Minus, Plus, Search, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -67,7 +68,7 @@ export function TablePartsInUse({ title, subtitle }: ITableColumn) {
 
   const deletePart = async (id: number) => {
     try {
-      await fetch(`http://localhost:8080/parts/${id}`);
+      await api.delete(`parts/${id}`);
       setParts(parts.filter((part) => part.idPart !== id));
       toast.success("Peça deletada com sucesso!");
     } catch (error) {
