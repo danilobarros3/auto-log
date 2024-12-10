@@ -8,6 +8,10 @@ import { ActionButtons } from "./ActionButtons";
 import api from "@/services";
 import { useFormik } from "formik";
 import { toast } from "sonner";
+import {
+  initialServiceFormValues,
+  serviceFormSchema,
+} from "@/schema/serviceForm.schema";
 
 interface ICarFormValues {
   ownerName: string;
@@ -18,8 +22,17 @@ interface ICarFormValues {
   chassisNumber: string;
 }
 
+interface IServiceFormValues {
+  serviceDescription: string;
+  repairDate: string;
+  serviceStatus: string;
+  serviceValue: string;
+}
+
 export function RegisterCar() {
-  const [view, setView] = useState<"buttons" | "vehicleForm" | "serviceForm">("buttons");
+  const [view, setView] = useState<"buttons" | "vehicleForm" | "serviceForm">(
+    "buttons"
+  );
 
   const handleFormikCars = useFormik<ICarFormValues>({
     initialValues: initialCarFormValues,
@@ -34,6 +47,27 @@ export function RegisterCar() {
       const id = 1;
       await api.post(`/users/${id}/cars`, values);
       toast.success("Carro cadastrado com sucesso!");
+      handleFormikCars.resetForm();
+    } catch (error) {
+      console.error(error);
+      toast.error("Falha ao cadastrar, tente novamente!");
+    }
+  };
+
+  const handleServiceFormik = useFormik<IServiceFormValues>({
+    initialValues: initialServiceFormValues,
+    validationSchema: serviceFormSchema,
+    onSubmit: async (values) => {
+      handleServiceSubmit(values);
+    },
+  });
+
+  const handleServiceSubmit = async (values: IServiceFormValues) => {
+    try {
+      const id = 1;
+      await api.post(`/users/${id}/cars/${id}/maintenance`, values);
+      toast.success("Serviço cadastrado com sucesso!");
+      handleServiceFormik.resetForm();
     } catch (error) {
       console.error(error);
       toast.error("Falha ao cadastrar, tente novamente!");
@@ -51,7 +85,7 @@ export function RegisterCar() {
           avatarSrc={null}
         />
 
-        <div className="flex flex-col items-center justify-center min-h-screen bg-background">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-background pb-[40vh]">
           {view === "buttons" && (
             <ActionButtons
               onVehicleClick={() => setView("vehicleForm")}
@@ -93,7 +127,10 @@ export function RegisterCar() {
                   </div>
 
                   <div>
-                    <Label htmlFor="carBrand" className="block text-sm font-medium">
+                    <Label
+                      htmlFor="carBrand"
+                      className="block text-sm font-medium"
+                    >
                       Marca do Carro
                     </Label>
                     <Input
@@ -113,7 +150,10 @@ export function RegisterCar() {
                   </div>
 
                   <div>
-                    <Label htmlFor="model" className="block text-sm font-medium">
+                    <Label
+                      htmlFor="model"
+                      className="block text-sm font-medium"
+                    >
                       Modelo
                     </Label>
                     <Input
@@ -133,7 +173,10 @@ export function RegisterCar() {
                   </div>
 
                   <div>
-                    <Label htmlFor="color" className="block text-sm font-medium">
+                    <Label
+                      htmlFor="color"
+                      className="block text-sm font-medium"
+                    >
                       Cor
                     </Label>
                     <Input
@@ -207,6 +250,12 @@ export function RegisterCar() {
                   </button>
                 </div>
               </form>
+              <button
+                onClick={() => setView("buttons")}
+                className="mt-4 text-primary underline"
+              >
+                Voltar
+              </button>
             </div>
           )}
 
@@ -215,7 +264,112 @@ export function RegisterCar() {
               <h1 className="text-2xl font-bold mb-4">
                 Insira as informações do serviço a ser registrado!
               </h1>
-              <p>Formulário de serviço </p>
+              <form
+                onSubmit={handleServiceFormik.handleSubmit}
+                className="space-y-8"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <Label
+                      htmlFor="serviceDescription"
+                      className="block text-sm font-medium"
+                    >
+                      Descrição do serviço
+                    </Label>
+                    <Input
+                      type="text"
+                      id="serviceDescription"
+                      name="serviceDescription"
+                      value={handleServiceFormik.values.serviceDescription}
+                      onChange={handleServiceFormik.handleChange}
+                      className="mt-1 p-2 w-full border rounded-md"
+                    />
+                    {handleServiceFormik.errors?.serviceDescription &&
+                      handleServiceFormik.touched.serviceDescription && (
+                        <span className="text-red-500">
+                          {handleServiceFormik.errors.serviceDescription}
+                        </span>
+                      )}
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="serviceStatus"
+                      className="block text-sm font-medium"
+                    >
+                      Status
+                    </Label>
+                    <Input
+                      type="text"
+                      id="serviceStatus"
+                      name="serviceStatus"
+                      value={handleServiceFormik.values.serviceStatus}
+                      onChange={handleServiceFormik.handleChange}
+                      className="mt-1 p-2 w-full border rounded-md"
+                    />
+                    {handleServiceFormik.errors?.serviceStatus &&
+                      handleServiceFormik.touched.serviceStatus && (
+                        <span className="text-red-500">
+                          {handleServiceFormik.errors.serviceStatus}
+                        </span>
+                      )}
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="repairDate"
+                      className="block text-sm font-medium"
+                    >
+                      Data de reparo
+                    </Label>
+                    <Input
+                      type="date"
+                      id="repairDate"
+                      name="repairDate"
+                      value={handleServiceFormik.values.repairDate}
+                      onChange={handleServiceFormik.handleChange}
+                      className="mt-1 p-2 w-full border rounded-md"
+                    />
+                    {handleServiceFormik.errors?.repairDate &&
+                      handleServiceFormik.touched.repairDate && (
+                        <span className="text-red-500">
+                          {handleServiceFormik.errors.repairDate}
+                        </span>
+                      )}
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="serviceValue"
+                      className="block text-sm font-medium"
+                    >
+                      Valor
+                    </Label>
+                    <Input
+                      id="serviceValue"
+                      name="serviceValue"
+                      value={handleServiceFormik.values.serviceValue}
+                      onChange={handleServiceFormik.handleChange}
+                      className="mt-1 p-2 w-full border rounded-md"
+                    />
+                    {handleServiceFormik.errors?.serviceValue &&
+                      handleServiceFormik.touched.serviceValue && (
+                        <span className="text-red-500">
+                          {handleServiceFormik.errors.serviceValue}
+                        </span>
+                      )}
+                  </div>
+                </div>
+
+                <div className="mt-10">
+                  <button
+                    type="submit"
+                    className="w-full p-2 bg-primary text-white rounded-md hover:bg-secondary"
+                  >
+                    Registrar serviço
+                  </button>
+                </div>
+              </form>
               <button
                 onClick={() => setView("buttons")}
                 className="mt-4 text-primary underline"

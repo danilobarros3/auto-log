@@ -18,8 +18,6 @@ export function PartsPage() {
           <TablePartsInUse
            title="Estoque de Peças"
            subtitle="Confira os detalhes das peças em seu estoque"/>
-          
-          
         </div>
       </div>
     </div>

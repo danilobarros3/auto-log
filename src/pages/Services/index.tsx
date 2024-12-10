@@ -1,14 +1,47 @@
 import { Header } from "@/components/Header";
-import { Layers, Briefcase, CheckCircle } from "lucide-react";
+import { Layers, Briefcase, CheckCircle, XCircle } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import InfoCard from "@/components/InfoCard";
 import { TableService } from "./components/tableServices";
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { useEffect, useState } from "react";
+import api from "@/services";
+import { toast } from "sonner";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+interface IService {
+  idMaintenance: number;
+  serviceDescription: string;
+  serviceStatus: string;
+  repairDate: string;
+  serviceValue: number;
+}
+
 export function Services() {
+  const [services, setServices] = useState<IService[]>([]);
+
+  const fetchServices = async () => {
+    try {
+      const { data } = await api.get(`/users/1/cars/1/maintenance`);
+      setServices(data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro ao carregar os serviços.");
+    }
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+
+  const tasksToday = services.filter(service => service.serviceStatus === "Ativo").length;
+  const inProgress = services.filter(service => service.serviceStatus === "Em andamento").length;
+  const completed = services.filter(service => service.serviceStatus === "Concluído").length;
+  const cancelled = services.filter(service => service.serviceStatus === "Cancelado").length;
+
   const data = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
@@ -53,7 +86,7 @@ export function Services() {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <Sidebar />
 
       <div className="flex-1">
@@ -68,7 +101,7 @@ export function Services() {
             <InfoCard
               icon={<Layers className="h-8 w-8 text-white" />}
               description=""
-              title="10"
+              title={tasksToday.toString()}
               subtitle="Tarefas de hoje"
               cardBackground="bg-primary"
               iconBackground="bg-secondary"
@@ -79,7 +112,7 @@ export function Services() {
             <InfoCard
               icon={<Briefcase className="h-8 w-8 text-white" />}
               description=""
-              title="2"
+              title={inProgress.toString()}
               subtitle="Em andamento"
               cardBackground="bg-card"
               iconBackground="bg-secondary"
@@ -90,7 +123,7 @@ export function Services() {
             <InfoCard
               icon={<CheckCircle className="h-8 w-8 text-white" />}
               description=""
-              title="5"
+              title={completed.toString()}
               subtitle="Concluído"
               cardBackground="bg-card"
               iconBackground="bg-secondary"
@@ -99,10 +132,10 @@ export function Services() {
             />
 
             <InfoCard
-              icon={<CheckCircle className="h-8 w-8 text-white" />}
+              icon={<XCircle className="h-8 w-8 text-white" />}
               description=""
-              title="5"
-              subtitle="Concluído"
+              title={cancelled.toString()}
+              subtitle="Cancelado"
               cardBackground="bg-card"
               iconBackground="bg-secondary"
               titleColor="text-foreground"

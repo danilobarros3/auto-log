@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import api from "@/services";
 
 const EditableField = ({
   label,
@@ -62,16 +63,16 @@ export default function Config() {
 
   const [data, setData] = useState({
     user: {
-      nome: "Nome Usuário",
-      email: "email.usuario@email.com",
-      cnpj: "12.345.678/0001-99",
-      telefone: "(00) 00000-0000",
+      name: "",
+      email: "",
+      cnpj: "",
+      phone: "",
     },
     oficina: {
-      nome: "Nome Oficina",
-      endereco: "Endereço Oficina",
+      nameWorkshop: "",
+      addressWorkshop: "",
     },
-    password: "********",
+    password: "",
   });
 
   const toggleTheme = () => {
@@ -90,6 +91,49 @@ export default function Config() {
       [section]: { ...prev[section], [key]: value },
     }));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/users/1");
+        const userData = response.data;
+        setData({
+          user: {
+            name: userData.name,
+            email: userData.email,
+            cnpj: userData.cnpj,
+            phone: userData.phone,
+          },
+          oficina: {
+            nameWorkshop: userData.nameWorkshop,
+            addressWorkshop: userData.addressWorkshop,
+          },
+          password: "********",
+        });
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSave = async (section: "user" | "oficina") => {
+    try {
+      const payload = {
+        ...data.user,
+        ...data.oficina,
+        password: data.password !== "********" ? data.password : undefined,
+      };
+      await api.put("/users/1", payload);
+      setIsEditing((prev) => ({ ...prev, [section]: false }));
+      alert("Dados salvos com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar os dados:", error);
+      alert("Erro ao salvar os dados!");
+    }
+  };
+
 
   const tabs: Record<string, JSX.Element> = {
     Conta: (
@@ -111,11 +155,13 @@ export default function Config() {
         </div>
         <Button
           onClick={() =>
-            setIsEditing((prev) => ({ ...prev, info: !prev.info }))
+            isEditing.oficina
+              ? handleSave("oficina")
+              : setIsEditing({ ...isEditing, oficina: true })
           }
           className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md mt-4"
         >
-          {isEditing.info ? "Salvar" : "Editar"}
+          {isEditing.oficina ? "Salvar" : "Editar"}
         </Button>
       </Section>
     ),

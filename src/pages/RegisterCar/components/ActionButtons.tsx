@@ -13,7 +13,6 @@ export function ActionButtons({ onVehicleClick, onServiceClick }: ActionButtonsP
       </h1>
 
       <div className="flex flex-col sm:flex-row gap-6 w-full">
-        {/* Botão Veículo */}
         <button
           onClick={onVehicleClick}
           className="flex items-center justify-center space-between gap-8 w-full p-10 bg-foreground text-background rounded-lg transform transition-all duration-300 hover:scale-105"
