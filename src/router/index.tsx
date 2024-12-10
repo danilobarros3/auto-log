@@ -9,6 +9,7 @@ import { Parts } from "@/pages/Parts/components";
 import RegisterForm from "@/pages/Register";
 import { Vehicles } from "@/pages/Veiculos";
 import { PartsPage } from "@/pages/Parts/components/Parts";
+import ForgotPasswordDialog from "@/pages/ForgotPassword";
 
 
 
@@ -20,6 +21,7 @@ const Router = () => {
         <Route element={<AuthGuard isPrivate={false} />}>
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<RegisterForm />} />
+          <Route path="/esqueceu-a-senha" element={<ForgotPasswordDialog />} />
         </Route>
         <Route element={<AuthGuard isPrivate />}>
           <Route>

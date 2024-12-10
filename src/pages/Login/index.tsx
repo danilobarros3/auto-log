@@ -13,6 +13,7 @@ import {
   loginFormSchema,
 } from "@/schema/loginForm.schema";
 import { useAuth } from "@/hooks/useAuth";
+import ForgotPasswordDialog from "../ForgotPassword";
 
 interface ILogin {
   email: string;
@@ -24,6 +25,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { signin } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleFormikLogin = useFormik({
     initialValues: initialLoginFormValues,
@@ -47,6 +49,10 @@ const Login: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -136,12 +142,13 @@ const Login: React.FC = () => {
               </Button>
 
               <div className="mt-6 text-center">
-                <a
-                  href="#"
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(true)}
                   className="text-sm text-gray-500 hover:text-gray-700"
                 >
                   Esqueceu sua senha?
-                </a>
+                </button>
               </div>
               <div className="mt-2 text-center text-sm">
                 Ainda não possui uma conta?{" "}
@@ -153,6 +160,7 @@ const Login: React.FC = () => {
           </div>
         </div>
       </form>
+      <ForgotPasswordDialog isOpen={isModalOpen} onClose={handleCloseModal} />
     </>
   );
 };
