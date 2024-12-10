@@ -64,8 +64,7 @@ export function RegisterCar() {
 
   const handleServiceSubmit = async (values: IServiceFormValues) => {
     try {
-      const id = 1;
-      await api.post(`/users/${id}/cars/${id}/maintenance`, values);
+      await api.post(`/users/1/cars/1/maintenance`, values);
       toast.success("Serviço cadastrado com sucesso!");
       handleServiceFormik.resetForm();
     } catch (error) {

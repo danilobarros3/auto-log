@@ -9,7 +9,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import api from "@/services";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface IVehicle {
   idCar: number;
@@ -66,6 +67,17 @@ export function TableVehicles() {
           .includes(filters.licencePlate.toLowerCase()))
     );
   });
+
+  const deleteVehicle = async (idCar: number) => {
+    try {
+      await api.delete(`/users/1/cars/${idCar}`);
+      setVehicles(vehicles.filter((vehicle) => vehicle.idCar !== idCar));
+      toast.success("Veículo excluído com sucesso!");
+    } catch (error) {
+      console.error("Erro ao excluir veículo:", error);
+      toast.error("Falha ao excluir veículo. Tente novamente!");
+    }
+  };
 
   return (
     <div className="bg-background flex flex-col justify-center w-full rounded-2xl shadow-lg p-5">
@@ -129,6 +141,7 @@ export function TableVehicles() {
                 <TableHead>Modelo</TableHead>
                 <TableHead>Placa</TableHead>
                 <TableHead>Chassi</TableHead>
+                <TableHead>Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -147,6 +160,14 @@ export function TableVehicles() {
                     <TableCell>{vehicle?.model}</TableCell>
                     <TableCell>{vehicle?.licencePlate}</TableCell>
                     <TableCell>{vehicle?.chassisNumber}</TableCell>
+                    <TableCell>
+                      <button
+                        onClick={() => deleteVehicle(vehicle.idCar)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <Trash2 className="h-5 w-5" />
+                      </button>
+                    </TableCell>
                   </TableRow>
                 ))
               ) : (

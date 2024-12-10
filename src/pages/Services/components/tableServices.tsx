@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import api from "@/services";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -73,8 +73,7 @@ export function TableService({
 
   const getAllServices = async () => {
     try {
-      const id = 1;
-      const { data } = await api.get(`/users/${id}/cars/${id}/maintenance`);
+      const { data } = await api.get(`/users/1/cars/1/maintenance`);
       setServices(data);
       toast.success("Serviços carregados com sucesso!");
     } catch (error) {
@@ -96,6 +95,19 @@ export function TableService({
       (filters.date === "" || service.repairDate.includes(filters.date))
     );
   });
+
+  const deleteService = async (serviceId: number) => {
+    try {
+      const userId = 1; 
+      const carId = 1; 
+      await api.delete(`/users/${userId}/cars/${carId}/maintenance/${serviceId}`);
+      setServices(services.filter((service) => service.idMaintenance !== serviceId));
+      toast.success("Serviço excluído com sucesso!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Falha ao excluir o serviço. Tente novamente!");
+    }
+  };
 
   return (
     <div className="bg-background flex flex-col justify-center w-full rounded-2xl shadow-lg p-5">
@@ -176,6 +188,15 @@ export function TableService({
                     2
                   )}`}</TableCell>
                   <TableCell>{service.repairDate}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="destructive"
+                      onClick={() => deleteService(service.idMaintenance)}
+                      className="bg-red-500 text-white hover:bg-red-600"
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

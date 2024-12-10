@@ -7,11 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Box, Minus, Plus, Search } from "lucide-react";
+import { Box, Minus, Plus, Search, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface IPart {
+  idPart: number;
   name: string;
   partNumber: string;
   quantity: number;
@@ -24,10 +26,7 @@ interface ITableColumn {
   subtitle?: string;
 }
 
-export function TablePartsInUse({
-  title,
-  subtitle,
-}: ITableColumn) {
+export function TablePartsInUse({ title, subtitle }: ITableColumn) {
   const [isOpen, setIsOpen] = useState(false);
   const [parts, setParts] = useState<IPart[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -59,14 +58,29 @@ export function TablePartsInUse({
   }, []);
 
   const filteredParts = parts.filter((part) => {
-    const matchesName = part.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesName = part.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
     const matchesId = part.partNumber.includes(searchId);
     return matchesName && matchesId;
   });
 
+  const deletePart = async (id: number) => {
+    try {
+      await fetch(`http://localhost:8080/parts/${id}`);
+      setParts(parts.filter((part) => part.idPart !== id));
+      toast.success("Peça deletada com sucesso!");
+    } catch (error) {
+      setError("Erro ao excluir a peça");
+    }
+  };
+
   return (
     <div className="bg-white flex flex-col justify-center w-full rounded-2xl shadow-xl p-6">
-      <div className="flex gap-4 items-center cursor-pointer" onClick={toggleAccordion}>
+      <div
+        className="flex gap-4 items-center cursor-pointer"
+        onClick={toggleAccordion}
+      >
         <button className="flex items-center justify-center">
           {isOpen ? (
             <div className="bg-gray-100 border border-gray-300 rounded-full p-1">
@@ -85,7 +99,7 @@ export function TablePartsInUse({
           </div>
           <Button
             className="flex items-center justify-center bg-blue-500 text-white border border-blue-500 shadow-lg hover:bg-blue-600 transition-colors"
-            onClick={() => navigate('/parts/form')}
+            onClick={() => navigate("/parts/form")}
           >
             <Box className="h-6 w-6 text-foreground" />
             <span className="text-foreground">Adicionar peça</span>
@@ -132,7 +146,9 @@ export function TablePartsInUse({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[120px] text-black">Número da Peça</TableHead>
+                  <TableHead className="w-[120px] text-black">
+                    Id da peça
+                  </TableHead>
                   <TableHead className="text-black">Nome</TableHead>
                   <TableHead className="text-black">Quantidade</TableHead>
                   <TableHead className="text-black">Preço</TableHead>
@@ -142,13 +158,24 @@ export function TablePartsInUse({
               </TableHeader>
               <TableBody>
                 {filteredParts.map((part, index) => (
-                  <TableRow key={index} className="odd:bg-gray-50 hover:bg-gray-100 transition-colors">
-                    <TableCell className="font-medium">{part.partNumber}</TableCell>
+                  <TableRow
+                    key={index}
+                    className="odd:bg-gray-50 hover:bg-gray-100 transition-colors"
+                  >
+                    <TableCell className="font-medium">
+                      {part.partNumber}
+                    </TableCell>
                     <TableCell>{part.name}</TableCell>
                     <TableCell>{part.quantity}</TableCell>
                     <TableCell>{part.price}</TableCell>
                     <TableCell>{part.description}</TableCell>
                     <TableCell className="text-right">
+                      <button
+                        onClick={() => deletePart(part.idPart)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        <Trash2 className="h-5 w-5" />
+                      </button>
                     </TableCell>
                   </TableRow>
                 ))}
